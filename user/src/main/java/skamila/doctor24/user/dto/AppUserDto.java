@@ -1,25 +1,15 @@
-package skamila.doctor24.user.domain;
+package skamila.doctor24.user.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
+import lombok.Getter;
+import skamila.doctor24.user.domain.Role;
 
-import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
-@Entity
-@Inheritance(strategy = InheritanceType.JOINED)
-public class AppUser {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+@Getter
+public class AppUserDto {
 
     @NotBlank
     @Email
