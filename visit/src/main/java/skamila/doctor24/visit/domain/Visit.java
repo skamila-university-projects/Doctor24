@@ -8,6 +8,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import java.time.LocalDateTime;
 
 @Entity
 @Setter
@@ -24,5 +26,11 @@ public class Visit {
     @NotBlank
     private long patientId;
 
+    @NotNull
+    private LocalDateTime time;
+
+    private boolean confirmed;
+
+    private boolean canceled;
 
 }
