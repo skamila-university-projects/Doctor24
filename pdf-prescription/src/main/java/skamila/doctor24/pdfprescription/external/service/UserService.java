@@ -13,8 +13,8 @@ public class UserService {
         this.userServiceClient = userServiceClient;
     }
 
-    public User getUser(long patientId) {
-        return userServiceClient.getById(patientId);
+    public User getUser(String email) {
+        return userServiceClient.getByEmail(email);
     }
 
 }

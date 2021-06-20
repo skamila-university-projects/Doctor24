@@ -52,6 +52,10 @@ public class UserServiceImpl implements UserService {
         }
     }
 
+    public AppUser getByEmail(String userEmail) {
+        return userRepository.findByEmail(userEmail).orElse(null);
+    }
+
     private String getRole() {
         Collection<? extends GrantedAuthority> authorities =
                 SecurityContextHolder.getContext().getAuthentication().getAuthorities();

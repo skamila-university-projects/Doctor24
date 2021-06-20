@@ -22,6 +22,7 @@ public class AppUser {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+//    TODO uncoment @Column(unique = true)
     @NotBlank
     @Email
     private String email;

@@ -49,4 +49,10 @@ public class UserController {
         userService.removeUser(userId, principal);
     }
 
+    @RequestMapping(method = RequestMethod.GET, value = "/byEmail")
+    @RolesAllowed({ "ROLE_ADMIN" })
+    public AppUser getUsetByEmail(String userEmail) {
+        return userService.getByEmail(userEmail);
+    }
+
 }

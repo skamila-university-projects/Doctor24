@@ -16,4 +16,6 @@ public interface UserService {
 
     void removeUser(long userId, Principal principal);
 
+    AppUser getByEmail(String userEmail);
+
 }

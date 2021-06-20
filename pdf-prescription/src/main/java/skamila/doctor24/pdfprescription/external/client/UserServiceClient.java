@@ -9,7 +9,7 @@ import skamila.doctor24.pdfprescription.external.dto.User;
 @FeignClient(name = "USER-SERVICE")
 public interface UserServiceClient {
 
-    @RequestMapping(value = "/users/{userId}", method = RequestMethod.GET)
-    User getById(@PathVariable(value = "userId") long userId);
+    @RequestMapping(value = "/users/byEmail/{userEmail}", method = RequestMethod.GET)
+    User getByEmail(@PathVariable(value = "userEmail") String userEmail);
 
 }

@@ -44,9 +44,9 @@ public class PrescriptionServiceImpl implements PrescriptionService {
         Prescription prescription = prescriptionOptional.orElse(null);
         if (prescription == null) {
             Visit visit = visitService.getVisit(visitId);
-//            User patient = userService.getUser(visit.getPatientId());
-//            User doctor = userService.getUser(visit.getDoctorId());
-//            prescription = savePrescription(visit, patient, doctor);
+            User patient = userService.getUser(visit.getPatientEmail());
+            User doctor = userService.getUser(visit.getDoctorEmail());
+            prescription = savePrescription(visit, patient, doctor);
         }
         createResponse(response, prescription);
     }
