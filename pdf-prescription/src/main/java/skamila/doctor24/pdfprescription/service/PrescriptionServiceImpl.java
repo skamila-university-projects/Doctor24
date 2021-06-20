@@ -24,7 +24,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.Map;
 import java.util.Optional;
 
-@Service("PrescriptionServiceImpl")
+@Service("prescriptionServiceImpl")
 @Transactional
 public class PrescriptionServiceImpl implements PrescriptionService {
 
