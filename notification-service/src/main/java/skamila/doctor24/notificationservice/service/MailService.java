@@ -21,8 +21,8 @@ public class MailService {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setFrom(SpringConfiguration.MAIL);
         message.setTo(user.getEmail());
-        message.setSubject("Doctor-24 - witamy!");
-        String welcome = "Witaj " + user.getName() + "!\nSerdecznie witamy cię w witrynie Doctor24. Dziękujemy za zaufanie.\nEkipa Doctor-24";
+        message.setSubject("Doctor24 - witamy!");
+        String welcome = "Witaj " + user.getName() + "!\nSerdecznie witamy cię w witrynie Doctor24. Dziękujemy za zaufanie.\nZespół Doctor24";
         message.setText(welcome);
         emailSender.send(message);
     }

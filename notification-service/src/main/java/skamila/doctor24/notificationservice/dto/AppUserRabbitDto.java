@@ -5,7 +5,7 @@ import lombok.Getter;
 import java.io.Serializable;
 
 @Getter
-public class AppUserDto  implements Serializable {
+public class AppUserRabbitDto implements Serializable {
 
     private String name;
 

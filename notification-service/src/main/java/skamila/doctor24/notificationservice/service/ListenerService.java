@@ -15,7 +15,6 @@ public class ListenerService {
 
     @RabbitListener(queues = "welcome-email")
     public void receiveNote(AppUserRabbitDto user) {
-        System.out.printf("----------------------");
         mailService.sendMail(user);
     }
 
