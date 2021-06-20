@@ -24,7 +24,7 @@ public class PrescriptionConverter {
             return null;
         }
         Prescription prescription = new Prescription();
-        Map<Medicine, Integer> medicinesEntity = prescription.getMedicines();
+        Map<Medicine, Integer> medicinesEntity = new HashMap<>();
         for(Map.Entry<String, Integer> entry : medicinesDto.entrySet()) {
 
             Optional<Medicine> medicineOptional = medicineRepository.findByName(entry.getKey());
