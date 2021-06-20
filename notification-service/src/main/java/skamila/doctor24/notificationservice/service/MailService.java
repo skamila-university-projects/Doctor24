@@ -1,9 +1,11 @@
-package skamila.doctor24.notificationservice;
+package skamila.doctor24.notificationservice.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
+import skamila.doctor24.notificationservice.config.SpringConfiguration;
+import skamila.doctor24.notificationservice.dto.AppUserRabbitDto;
 
 @Service("mailService")
 public class MailService {
@@ -15,7 +17,7 @@ public class MailService {
         this.emailSender = emailSender;
     }
 
-    public void sendMail(AppUserDto user) {
+    public void sendMail(AppUserRabbitDto user) {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setFrom(SpringConfiguration.MAIL);
         message.setTo(user.getEmail());

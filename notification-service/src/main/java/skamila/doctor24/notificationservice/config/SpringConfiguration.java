@@ -1,4 +1,4 @@
-package skamila.doctor24.notificationservice;
+package skamila.doctor24.notificationservice.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

@@ -7,8 +7,8 @@ import java.io.Serializable;
 @AllArgsConstructor
 public class AppUserRabbitDto implements Serializable {
 
-    private String name;
+    private final String name;
 
-    private String email;
+    private final String email;
 
 }

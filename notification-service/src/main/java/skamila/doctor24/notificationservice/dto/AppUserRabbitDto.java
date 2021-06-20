@@ -1,4 +1,4 @@
-package skamila.doctor24.notificationservice;
+package skamila.doctor24.notificationservice.dto;
 
 import lombok.Getter;
 
