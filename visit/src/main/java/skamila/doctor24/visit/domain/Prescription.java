@@ -25,9 +25,6 @@ public class Prescription {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    private Visit visit;
-
     @ElementCollection
     @CollectionTable(name = "prescription_medicines",
             joinColumns = {@JoinColumn(name = "prescription_id", referencedColumnName = "id")})
