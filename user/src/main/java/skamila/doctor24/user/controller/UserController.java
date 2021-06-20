@@ -1,5 +1,6 @@
 package skamila.doctor24.user.controller;
 
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import skamila.doctor24.user.domain.AppUser;
@@ -20,7 +21,7 @@ public class UserController {
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    // admin
+    @RolesAllowed({ "ROLE_ADMIN" })
     public List<AppUser> getAllUsers() {
         return userService.getAll();
     }

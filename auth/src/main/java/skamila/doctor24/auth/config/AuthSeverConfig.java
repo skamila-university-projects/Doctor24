@@ -35,9 +35,8 @@ public class AuthSeverConfig extends AuthorizationServerConfigurerAdapter {
         clients.inMemory()
                 .withClient("doctor-24")
                 .secret(passwordEncoder.encode("doctor-24"))
-                .authorizedGrantTypes("password")
-                .scopes("read")
-                .autoApprove(true);
+                .authorizedGrantTypes("password", "authorization_code", "refresh_token")
+                .scopes("read", "write");
     }
 
     @Override

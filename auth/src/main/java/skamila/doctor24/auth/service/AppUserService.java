@@ -28,7 +28,7 @@ public class AppUserService implements UserDetailsService {
             throw new UsernameNotFoundException("User with this email does not exists.");
         }
         List<SimpleGrantedAuthority> authorities = new ArrayList<>();
-        authorities.add(new SimpleGrantedAuthority(user.getRole().toString()));
+        authorities.add(new SimpleGrantedAuthority("ROLE_" + user.getRole().toString()));
         return new User(user.getEmail(), user.getPassword(), authorities);
     }
 
