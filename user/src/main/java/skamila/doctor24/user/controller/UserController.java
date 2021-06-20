@@ -24,7 +24,7 @@ public class UserController {
         return userService.getAll();
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "register")
+    @RequestMapping(method = RequestMethod.POST, value = "/register")
     // wszyscy, nawet niezalogowani, ew. małe wyjatki co do konkretnych pól
     public void addUser(@RequestBody @Validated AppUserDto user) {
         userService.addUser(user);
