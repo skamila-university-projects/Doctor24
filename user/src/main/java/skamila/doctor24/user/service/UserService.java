@@ -11,4 +11,6 @@ public interface UserService {
 
     void addUser(AppUserDto user);
 
+    void removeUser(long userId);
+
 }

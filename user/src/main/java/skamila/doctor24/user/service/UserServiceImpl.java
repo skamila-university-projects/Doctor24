@@ -8,6 +8,7 @@ import skamila.doctor24.user.util.AppUserConverter;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
 
 @Service("userService")
 @Transactional
@@ -27,5 +28,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public void addUser(AppUserDto user) {
         userRepository.save(AppUserConverter.toEntity(user));
+    }
+
+    @Override
+    public void removeUser(long userId) {
+        Optional<AppUser> userOptional = userRepository.findById(userId);
+        userOptional.ifPresent(userRepository::delete);
     }
 }

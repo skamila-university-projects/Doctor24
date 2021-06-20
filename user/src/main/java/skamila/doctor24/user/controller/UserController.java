@@ -19,14 +19,27 @@ public class UserController {
     }
 
     @RequestMapping(method = RequestMethod.GET)
+    // admin
     public List<AppUser> getAllUsers() {
         return userService.getAll();
     }
 
-    @RequestMapping(method = RequestMethod.POST)
-    public void register(@RequestBody @Validated AppUserDto user) {
+    @RequestMapping(method = RequestMethod.POST, value = "register")
+    // wszyscy, nawet niezalogowani, ew. małe wyjatki co do konkretnych pól
+    public void addUser(@RequestBody @Validated AppUserDto user) {
         userService.addUser(user);
     }
 
+    @RequestMapping(method = RequestMethod.PUT)
+    // wszyscy ale tylko swoje
+    public void update(@RequestBody @Validated AppUserDto user) {
+        userService.addUser(user);
+    }
+
+    @RequestMapping(method = RequestMethod.DELETE)
+    // admin
+    public void delete(int userId) {
+        userService.removeUser(userId);
+    }
 
 }
