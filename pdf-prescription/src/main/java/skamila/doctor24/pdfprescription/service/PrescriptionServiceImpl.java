@@ -21,7 +21,6 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.security.Principal;
 import java.time.format.DateTimeFormatter;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
@@ -47,24 +46,22 @@ public class PrescriptionServiceImpl implements PrescriptionService {
             Visit visit = visitService.getVisit(visitId);
             User patient = userService.getUser(visit.getPatientId());
             User doctor = userService.getUser(visit.getDoctorId());
-            // pobrać również lekarstwa
-            Map<String, Integer> medicines = new HashMap<>();
-            prescription = savePrescription(visit, patient, doctor, medicines);
+            prescription = savePrescription(visit, patient, doctor);
         }
         createResponse(response, prescription);
     }
 
-    private Prescription savePrescription(Visit visit, User patient, User doctor, Map<String, Integer> medicines) {
+    private Prescription savePrescription(Visit visit, User patient, User doctor) {
         Prescription prescription = Prescription.builder()
                 .visitId(visit.getId())
                 .patientEmail(patient.getEmail())
                 .doctorEmail(doctor.getEmail())
-                .prescription(generatePdf(visit, patient, doctor, medicines))
+                .prescription(generatePdf(visit, patient, doctor))
                 .build();
         return prescriptionRepository.save(prescription);
     }
 
-    private byte[] generatePdf(Visit visit, User patient, User doctor, Map<String, Integer> medicines) {
+    private byte[] generatePdf(Visit visit, User patient, User doctor) {
         try {
             ByteArrayOutputStream  output = new ByteArrayOutputStream();
 
@@ -86,7 +83,7 @@ public class PrescriptionServiceImpl implements PrescriptionService {
 
             pdf.add(new Paragraph("Przepisane lekarstwa"));
             pdf.add(new Paragraph(Chunk.NEWLINE));
-            pdf.add(tableWithMedicines(medicines));
+            pdf.add(tableWithMedicines(visit.getPrescription()));
 
             pdf.close();
             output.close();

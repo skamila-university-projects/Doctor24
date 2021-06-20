@@ -8,6 +8,8 @@ import java.util.Map;
 @Getter
 public class VisitDto {
 
+    private long id;
+
     private long doctorId;
 
     private long patientId;
