@@ -1,10 +1,11 @@
 package skamila.doctor24.user.controller;
 
-import org.springframework.security.access.annotation.Secured;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import skamila.doctor24.user.domain.AppUser;
 import skamila.doctor24.user.dto.AppUserDto;
+import skamila.doctor24.user.dto.AppUserRabbitDto;
 import skamila.doctor24.user.service.UserServiceImpl;
 
 import javax.annotation.security.RolesAllowed;
@@ -17,8 +18,11 @@ public class UserController {
 
     private final UserServiceImpl userService;
 
-    public UserController(UserServiceImpl userService) {
+    private final RabbitTemplate rabbitTemplate;
+
+    public UserController(UserServiceImpl userService, RabbitTemplate rabbitTemplate) {
         this.userService = userService;
+        this.rabbitTemplate = rabbitTemplate;
     }
 
     @RequestMapping(method = RequestMethod.GET)
@@ -30,6 +34,7 @@ public class UserController {
     @RequestMapping(method = RequestMethod.POST, value = "/register")
     public void addUser(@RequestBody @Validated AppUserDto user) {
         userService.addUser(user);
+        rabbitTemplate.convertAndSend("welcome-email", new AppUserRabbitDto(user.getName(), user.getEmail()));
     }
 
     @RequestMapping(method = RequestMethod.PUT)
