@@ -31,7 +31,7 @@ public class VisitController {
 
     @RequestMapping(method = RequestMethod.POST)
     @RolesAllowed({ "ROLE_ADMIN", "ROLE_DOCTOR", "ROLE_PATIENT" })
-    public void addVisit(@RequestBody @Validated VisitDto visit, Principal principal) {
+    public void addVisit(@RequestBody VisitDto visit, Principal principal) {
         visitService.addVisit(visit, principal);
     }
 

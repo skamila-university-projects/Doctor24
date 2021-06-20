@@ -11,7 +11,7 @@ public class VisitConverter {
                 .id(visit.getId())
                 .doctorEmail(visit.getDoctorEmail())
                 .patientEmail(visit.getPatientEmail())
-                .time(visit.getTime())
+                .visitTime(visit.getTime())
                 .prescription(PrescriptionConverter.fromEntity(visit.getPrescription()))
                 .build();
     }
@@ -21,6 +21,7 @@ public class VisitConverter {
                 .doctorEmail(visit.getDoctorEmail())
                 .patientEmail(visit.getPatientEmail())
                 .prescription(PrescriptionConverter.toEntity(visit.getPrescription(), medicineRepository))
+                .time(visit.getVisitTime())
                 .build();
     }
 

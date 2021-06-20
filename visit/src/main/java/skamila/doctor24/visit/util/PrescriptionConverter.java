@@ -20,6 +20,9 @@ public class PrescriptionConverter {
     }
 
     public static Prescription toEntity(Map<String, Integer> medicinesDto, MedicineRepository medicineRepository) {
+        if (medicinesDto == null) {
+            return null;
+        }
         Prescription prescription = new Prescription();
         Map<Medicine, Integer> medicinesEntity = prescription.getMedicines();
         for(Map.Entry<String, Integer> entry : medicinesDto.entrySet()) {
