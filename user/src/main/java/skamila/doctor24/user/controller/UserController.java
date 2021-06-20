@@ -6,6 +6,7 @@ import skamila.doctor24.user.domain.AppUser;
 import skamila.doctor24.user.dto.AppUserDto;
 import skamila.doctor24.user.service.UserServiceImpl;
 
+import javax.annotation.security.RolesAllowed;
 import java.util.List;
 
 @RestController
@@ -25,7 +26,6 @@ public class UserController {
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/register")
-    // wszyscy, nawet niezalogowani, ew. małe wyjatki co do konkretnych pól
     public void addUser(@RequestBody @Validated AppUserDto user) {
         userService.addUser(user);
     }
