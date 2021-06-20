@@ -33,7 +33,7 @@ public class PrescriptionConverter {
             } else {
                 Medicine medicine = new Medicine();
                 medicine.setName(entry.getKey());
-                medicinesEntity.put(medicine, entry.getValue());
+                medicinesEntity.put(medicineRepository.save(medicine), entry.getValue());
             }
 
         }
