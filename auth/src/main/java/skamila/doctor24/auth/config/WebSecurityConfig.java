@@ -7,9 +7,16 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import skamila.doctor24.auth.service.AppUserService;
 
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+
+    private final AppUserService userService;
+
+    public WebSecurityConfig(AppUserService userService) {
+        this.userService = userService;
+    }
 
     @Override
     @Bean("authenticationManager")
@@ -23,6 +30,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .withUser("admin")
                 .password(passwordEncoder().encode("admin"))
                 .roles("ADMIN");
+        auth.inMemoryAuthentication()
+                .withUser("pat")
+                .password(passwordEncoder().encode("pat"))
+                .roles("PATIENT");
+        auth.inMemoryAuthentication()
+                .withUser("lek")
+                .password(passwordEncoder().encode("lek"))
+                .roles("DOCTOR");
+        auth.userDetailsService(userService);
     }
 
     @Bean

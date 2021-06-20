@@ -50,7 +50,7 @@ public class AuthSeverConfig extends AuthorizationServerConfigurerAdapter {
                 .accessTokenConverter(accessTokenConverter())
                 .userDetailsService(userService)
                 .authenticationManager(authenticationManager)
-                    .tokenStore(tokenStore());
+                .tokenStore(tokenStore());
     }
 
     @Bean
