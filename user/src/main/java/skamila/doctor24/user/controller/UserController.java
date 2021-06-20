@@ -40,8 +40,8 @@ public class UserController {
 
     @RequestMapping(method = RequestMethod.DELETE)
     @RolesAllowed({ "ROLE_ADMIN" })
-    public void delete(int userId) {
-        userService.removeUser(userId);
+    public void delete(int userId, Principal principal) {
+        userService.removeUser(userId, principal);
     }
 
 }

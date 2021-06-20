@@ -37,19 +37,19 @@ public class UserServiceImpl implements UserService {
     @Override
     public void updateUser(long userId, AppUserDto userDto, Principal principal) {
         String role = getRole();
-        Optional<AppUser> userOptional = userRepository.findById(userId);
-        if (userOptional.isPresent()) {
-            AppUser user = userOptional.get();
-            if (role.equals("ROLE_ADMIN") || principal.getName().equals(user.getEmail())) {
-                userRepository.save(AppUserConverter.toEntity(userDto, user.getId()));
-            }
+        AppUser user = userRepository.findById(userId).orElse(null);
+        if (user != null && (role.equals("ROLE_ADMIN") || principal.getName().equals(user.getEmail()))) {
+            userRepository.save(AppUserConverter.toEntity(userDto, user.getId()));
         }
     }
 
     @Override
-    public void removeUser(long userId) {
-        Optional<AppUser> userOptional = userRepository.findById(userId);
-        userOptional.ifPresent(userRepository::delete);
+    public void removeUser(long userId, Principal principal) {
+        String role = getRole();
+        AppUser user = userRepository.findById(userId).orElse(null);
+        if (user != null && (role.equals("ROLE_ADMIN") || principal.getName().equals(user.getEmail()))) {
+            userRepository.delete(user);
+        }
     }
 
     private String getRole() {

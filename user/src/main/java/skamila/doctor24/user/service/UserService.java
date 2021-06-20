@@ -14,6 +14,6 @@ public interface UserService {
 
     void updateUser(long userId, AppUserDto user, Principal principal);
 
-    void removeUser(long userId);
+    void removeUser(long userId, Principal principal);
 
 }
