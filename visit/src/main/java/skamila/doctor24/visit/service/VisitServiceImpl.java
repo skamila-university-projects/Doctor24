@@ -1,16 +1,20 @@
 package skamila.doctor24.visit.service;
 
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-import skamila.doctor24.visit.domain.Medicine;
 import skamila.doctor24.visit.domain.Prescription;
 import skamila.doctor24.visit.domain.Visit;
 import skamila.doctor24.visit.dto.MedicinesForDoctorDto;
 import skamila.doctor24.visit.dto.VisitDto;
+import skamila.doctor24.visit.repository.MedicineRepository;
 import skamila.doctor24.visit.repository.VisitRepository;
 import skamila.doctor24.visit.util.VisitConverter;
 
 import javax.transaction.Transactional;
+import java.security.Principal;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,9 +26,11 @@ import java.util.stream.Collectors;
 public class VisitServiceImpl implements VisitService {
 
     private final VisitRepository visitRepository;
+    private final MedicineRepository medicineRepository;
 
-    public VisitServiceImpl(VisitRepository visitRepository) {
+    public VisitServiceImpl(VisitRepository visitRepository, MedicineRepository medicineRepository) {
         this.visitRepository = visitRepository;
+        this.medicineRepository = medicineRepository;
     }
 
     @Override
@@ -50,6 +56,17 @@ public class VisitServiceImpl implements VisitService {
         List<MedicinesForDoctorDto> medicinesForDoctor = new ArrayList<>();
         medicines.forEach((key, value) -> medicinesForDoctor.add(new MedicinesForDoctorDto(key, value)));
         return medicinesForDoctor;
+    }
+
+    @Override
+    public void addVisit(VisitDto visit, Principal principal) {
+        visitRepository.save(VisitConverter.toEntity(visit, medicineRepository));
+    }
+
+    private String getRole() {
+        Collection<? extends GrantedAuthority> authorities =
+                SecurityContextHolder.getContext().getAuthentication().getAuthorities();
+        return authorities.stream().findFirst().get().getAuthority();
     }
 
 }
