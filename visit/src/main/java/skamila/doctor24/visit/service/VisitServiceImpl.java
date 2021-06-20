@@ -6,9 +6,11 @@ import org.springframework.stereotype.Service;
 import skamila.doctor24.visit.domain.Prescription;
 import skamila.doctor24.visit.domain.Visit;
 import skamila.doctor24.visit.dto.MedicinesForDoctorDto;
+import skamila.doctor24.visit.dto.PrescriptionDto;
 import skamila.doctor24.visit.dto.VisitDto;
 import skamila.doctor24.visit.repository.MedicineRepository;
 import skamila.doctor24.visit.repository.VisitRepository;
+import skamila.doctor24.visit.util.PrescriptionConverter;
 import skamila.doctor24.visit.util.VisitConverter;
 
 import javax.transaction.Transactional;
@@ -34,9 +36,12 @@ public class VisitServiceImpl implements VisitService {
     }
 
     @Override
-    public VisitDto getVisitById(Long visitId) {
-        Optional<Visit> visit = visitRepository.findById(visitId);
-        return visit.map(VisitConverter::fromEntity).orElse(null);
+    public VisitDto getVisitById(Long visitId, Principal principal) {
+        Visit visit = visitRepository.findById(visitId).orElse(null);
+        if (visit != null && hasPatientOrDoctorPermissions(visit, principal)) {
+            return VisitConverter.fromEntity(visit);
+        }
+        return null;
     }
 
     @Override
@@ -60,10 +65,58 @@ public class VisitServiceImpl implements VisitService {
 
     @Override
     public void addVisit(VisitDto visit, Principal principal) {
-        if (getRole().equals("ROLE_ADMIN") || visit.getPatientEmail().equals(principal.getName())
-                || visit.getDoctorEmail().equals(principal.getName())) {
+        if (hasPatientOrDoctorPermissions(visit, principal)) {
             visitRepository.save(VisitConverter.toEntity(visit, medicineRepository));
         }
+    }
+
+    @Override
+    public void updateVisit(VisitDto visit, Principal principal) {
+        if (hasPatientOrDoctorPermissions(visit, principal)) {
+            visitRepository.save(VisitConverter.toEntity(visit, medicineRepository));
+        }
+    }
+
+    @Override
+    public void cancelVisit(long visitId, Principal principal) {
+        Visit visit = visitRepository.findById(visitId).orElse(null);
+        if (visit != null && hasDoctorPermissions(visit, principal))  {
+            visit.setCanceled(true);
+            visitRepository.save(visit);
+        }
+    }
+
+    @Override
+    public void confirmVisit(long visitId, Principal principal) {
+        Visit visit = visitRepository.findById(visitId).orElse(null);
+        if (visit != null && hasDoctorPermissions(visit, principal))  {
+            visit.setConfirmed(true);
+            visitRepository.save(visit);
+        }
+    }
+
+    @Override
+    public void writeUpPrescription(PrescriptionDto prescriptionDto, Principal principal) {
+        Visit visit = visitRepository.findById(prescriptionDto.getVisitId()).orElse(null);
+        if (visit != null && hasDoctorPermissions(visit, principal))  {
+            Prescription prescription = PrescriptionConverter.toEntity(prescriptionDto.getMedicines(), medicineRepository);
+            visit.setPrescription(prescription);
+            visitRepository.save(visit);
+        }
+    }
+
+    private boolean hasPatientOrDoctorPermissions(VisitDto visit, Principal principal) {
+        return getRole().equals("ROLE_ADMIN") || visit.getPatientEmail().equals(principal.getName())
+                || visit.getDoctorEmail().equals(principal.getName());
+    }
+
+    private boolean hasPatientOrDoctorPermissions(Visit visit, Principal principal) {
+        return getRole().equals("ROLE_ADMIN") || visit.getPatientEmail().equals(principal.getName())
+                || visit.getDoctorEmail().equals(principal.getName());
+    }
+
+    private boolean hasDoctorPermissions(Visit visit, Principal principal) {
+        return getRole().equals("ROLE_ADMIN") || visit.getDoctorEmail().equals(principal.getName());
     }
 
     private String getRole() {

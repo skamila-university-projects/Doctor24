@@ -7,9 +7,11 @@ import java.util.Map;
 @Getter
 public class PrescriptionDto {
 
+    private long visitId;
+
     /**
      * MedicineId to quantity of this medicine on the prescription.
      */
-    private Map<Integer, Integer> medicines;
+    private Map<String, Integer> medicines;
 
 }
