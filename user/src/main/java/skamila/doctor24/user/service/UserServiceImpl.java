@@ -31,6 +31,15 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public void updateUser(long userId, AppUserDto userDto) {
+        Optional<AppUser> userOptional = userRepository.findById(userId);
+        if (userOptional.isPresent()) {
+            AppUser user = userOptional.get();
+            userRepository.save(AppUserConverter.toEntity(userDto, user.getId()));
+        }
+    }
+
+    @Override
     public void removeUser(long userId) {
         Optional<AppUser> userOptional = userRepository.findById(userId);
         userOptional.ifPresent(userRepository::delete);

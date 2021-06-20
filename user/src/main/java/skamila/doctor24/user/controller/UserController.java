@@ -32,8 +32,8 @@ public class UserController {
 
     @RequestMapping(method = RequestMethod.PUT)
     // wszyscy ale tylko swoje
-    public void update(@RequestBody @Validated AppUserDto user) {
-        userService.addUser(user);
+    public void update(long userId, @RequestBody @Validated AppUserDto user) {
+        userService.updateUser(userId, user);
     }
 
     @RequestMapping(method = RequestMethod.DELETE)

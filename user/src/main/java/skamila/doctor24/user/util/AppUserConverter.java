@@ -17,6 +17,18 @@ public class AppUserConverter {
                 .build();
     }
 
+    public static AppUser toEntity(AppUserDto appUserDto, long userId) {
+        return AppUser.builder()
+                .id(userId)
+                .email(appUserDto.getEmail())
+                .password(hashPassword(appUserDto.getPassword()))
+                .role(appUserDto.getRole())
+                .active(appUserDto.isActive())
+                .name(appUserDto.getName())
+                .surname(appUserDto.getSurname())
+                .build();
+    }
+
     private static String hashPassword(String password) {
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         return passwordEncoder.encode(password);
