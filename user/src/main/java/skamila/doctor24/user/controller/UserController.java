@@ -8,6 +8,7 @@ import skamila.doctor24.user.dto.AppUserDto;
 import skamila.doctor24.user.service.UserServiceImpl;
 
 import javax.annotation.security.RolesAllowed;
+import java.security.Principal;
 import java.util.List;
 
 @RestController
@@ -32,13 +33,13 @@ public class UserController {
     }
 
     @RequestMapping(method = RequestMethod.PUT)
-    // wszyscy ale tylko swoje
-    public void update(long userId, @RequestBody @Validated AppUserDto user) {
-        userService.updateUser(userId, user);
+    @RolesAllowed({ "ROLE_ADMIN", "ROLE_DOCTOR", "ROLE_PATIENT" })
+    public void update(long userId, @RequestBody @Validated AppUserDto user, Principal principal) {
+        userService.updateUser(userId, user, principal);
     }
 
     @RequestMapping(method = RequestMethod.DELETE)
-    // admin
+    @RolesAllowed({ "ROLE_ADMIN" })
     public void delete(int userId) {
         userService.removeUser(userId);
     }

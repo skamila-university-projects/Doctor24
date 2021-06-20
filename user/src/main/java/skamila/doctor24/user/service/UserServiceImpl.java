@@ -1,5 +1,7 @@
 package skamila.doctor24.user.service;
 
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import skamila.doctor24.user.domain.AppUser;
 import skamila.doctor24.user.dto.AppUserDto;
@@ -7,6 +9,8 @@ import skamila.doctor24.user.repository.UserRepository;
 import skamila.doctor24.user.util.AppUserConverter;
 
 import javax.transaction.Transactional;
+import java.security.Principal;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,11 +35,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void updateUser(long userId, AppUserDto userDto) {
+    public void updateUser(long userId, AppUserDto userDto, Principal principal) {
+        String role = getRole();
         Optional<AppUser> userOptional = userRepository.findById(userId);
         if (userOptional.isPresent()) {
             AppUser user = userOptional.get();
-            userRepository.save(AppUserConverter.toEntity(userDto, user.getId()));
+            if (role.equals("ROLE_ADMIN") || principal.getName().equals(user.getEmail())) {
+                userRepository.save(AppUserConverter.toEntity(userDto, user.getId()));
+            }
         }
     }
 
@@ -44,4 +51,11 @@ public class UserServiceImpl implements UserService {
         Optional<AppUser> userOptional = userRepository.findById(userId);
         userOptional.ifPresent(userRepository::delete);
     }
+
+    private String getRole() {
+        Collection<? extends GrantedAuthority> authorities =
+                SecurityContextHolder.getContext().getAuthentication().getAuthorities();
+        return authorities.stream().findFirst().get().getAuthority();
+    }
+
 }
