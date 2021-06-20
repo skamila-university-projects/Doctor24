@@ -40,8 +40,8 @@ public class VisitServiceImpl implements VisitService {
     }
 
     @Override
-    public List<MedicinesForDoctorDto> getMedicinesByDoctor(long doctorId) {
-        List<Visit> visits = visitRepository.getVisitByDoctorId(doctorId);
+    public List<MedicinesForDoctorDto> getMedicinesByDoctor(String doctorEmail) {
+        List<Visit> visits = visitRepository.getVisitByDoctorEmail(doctorEmail);
         List<Prescription> prescriptions = visits.stream().map(Visit::getPrescription).collect(Collectors.toList());
         Map<String, Integer> medicines = new HashMap<>();
         prescriptions.forEach(prescription -> {
@@ -60,7 +60,10 @@ public class VisitServiceImpl implements VisitService {
 
     @Override
     public void addVisit(VisitDto visit, Principal principal) {
-        visitRepository.save(VisitConverter.toEntity(visit, medicineRepository));
+        if (getRole().equals("ROLE_ADMIN") || visit.getPatientEmail().equals(principal.getName())
+                || visit.getDoctorEmail().equals(principal.getName())) {
+            visitRepository.save(VisitConverter.toEntity(visit, medicineRepository));
+        }
     }
 
     private String getRole() {

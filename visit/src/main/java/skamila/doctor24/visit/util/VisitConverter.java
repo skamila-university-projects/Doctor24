@@ -15,8 +15,8 @@ public class VisitConverter {
     public static VisitDto fromEntity(Visit visit) {
         return VisitDto.builder()
                 .id(visit.getId())
-                .doctorId(visit.getDoctorId())
-                .patientId(visit.getPatientId())
+                .doctorEmail(visit.getDoctorEmail())
+                .patientEmail(visit.getPatientEmail())
                 .time(visit.getTime())
                 .prescription(fromEntity(visit.getPrescription()))
                 .build();
@@ -33,8 +33,8 @@ public class VisitConverter {
 
     public static Visit toEntity(VisitDto visit, MedicineRepository medicineRepository) {
         return Visit.builder()
-                .doctorId(visit.getDoctorId())
-                .patientId(visit.getPatientId())
+                .doctorEmail(visit.getDoctorEmail())
+                .patientEmail(visit.getPatientEmail())
                 .prescription(toEntity(visit.getPrescription(), medicineRepository))
                 .build();
     }

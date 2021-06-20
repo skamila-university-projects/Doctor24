@@ -50,8 +50,8 @@ public class MedicineController {
 
     @RequestMapping(method = RequestMethod.GET, value = "/doctor")
     @RolesAllowed({ "ROLE_ADMIN" })
-    public List<MedicinesForDoctorDto> getMedicinesByDoctor(@QueryParam("doctorId") long doctorId) {
-        return visitService.getMedicinesByDoctor(doctorId);
+    public List<MedicinesForDoctorDto> getMedicinesByDoctor(@QueryParam("doctorEmail") String doctorEmail) {
+        return visitService.getMedicinesByDoctor(doctorEmail);
     }
 
 }

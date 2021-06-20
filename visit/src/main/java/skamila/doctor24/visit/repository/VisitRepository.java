@@ -9,6 +9,6 @@ import java.util.List;
 @Repository
 public interface VisitRepository extends JpaRepository<Visit, Long> {
 
-    List<Visit> getVisitByDoctorId(Long doctorId);
+    List<Visit> getVisitByDoctorEmail(String email);
 
 }

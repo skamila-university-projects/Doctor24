@@ -29,10 +29,10 @@ public class Visit {
     private Long id;
 
     @NotBlank
-    private long doctorId;
+    private String doctorEmail;
 
     @NotBlank
-    private long patientId;
+    private String patientEmail;
 
     @NotNull
     private LocalDateTime time;

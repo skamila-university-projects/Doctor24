@@ -10,7 +10,7 @@ public interface VisitService {
 
     VisitDto getVisitById(Long visitId);
 
-    List<MedicinesForDoctorDto> getMedicinesByDoctor(long doctorId);
+    List<MedicinesForDoctorDto> getMedicinesByDoctor(String doctorEmail);
 
     void addVisit(VisitDto visit, Principal principal);
 }

@@ -12,9 +12,9 @@ public class VisitDto {
 
     private long id;
 
-    private long doctorId;
+    private String doctorEmail;
 
-    private long patientId;
+    private String patientEmail;
 
     private LocalDateTime time;
 

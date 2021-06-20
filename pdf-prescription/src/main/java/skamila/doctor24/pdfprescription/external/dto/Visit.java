@@ -10,9 +10,9 @@ public class Visit {
 
     private long id;
 
-    private long doctorId;
+    private String doctorEmail;
 
-    private long patientId;
+    private String patientEmail;
 
     private LocalDateTime time;
 
