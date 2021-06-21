@@ -14,7 +14,7 @@ public class Visit {
 
     private String patientEmail;
 
-    private LocalDateTime time;
+    private LocalDateTime visitTime;
 
     Map<String, Integer> prescription;
 

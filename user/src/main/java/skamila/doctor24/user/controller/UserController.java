@@ -49,9 +49,9 @@ public class UserController {
         userService.removeUser(userId, principal);
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/byEmail")
+    @RequestMapping(method = RequestMethod.GET, value = "/{userEmail}")
     @RolesAllowed({ "ROLE_ADMIN" })
-    public AppUser getUsetByEmail(String userEmail) {
+    public AppUser getUsetByEmail(@PathVariable("userEmail") String userEmail) {
         return userService.getByEmail(userEmail);
     }
 

@@ -109,9 +109,10 @@ public class PrescriptionServiceImpl implements PrescriptionService {
         table.addCell(doctor.getName() + " " + doctor.getSurname());
 
         table.addCell("Data");
-        table.addCell(DateTimeFormatter.ofPattern("dd/MM/yyyy").format(visit.getTime()));
+        table.addCell(DateTimeFormatter.ofPattern("dd/MM/yyyy").format(visit.getVisitTime()));
         table.addCell("Godzina");
-        table.addCell(DateTimeFormatter.ofPattern("HH:mm").format(visit.getTime()));
+        table.addCell(DateTimeFormatter.ofPattern("HH:mm").format(visit.getVisitTime()));
+
         return table;
     }
 
